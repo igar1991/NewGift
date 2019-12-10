@@ -7,27 +7,22 @@ import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
 import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
+import './Persik.css';
+import ded from '../img/santa.png';
 
 const Home = ({ id, go, fetchedUser }) => (
 	<Panel id={id}>
-		<PanelHeader>Exa3r3r3r3r3r3rrmple</PanelHeader>
-		{fetchedUser &&
-		<Group title="User Data Fetched with VK Connect">
-			<Cell
-				before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-				description={fetchedUser.city && fetchedUser.city.title ? fetchedUser.city.title : ''}
-			>
-				{`${fetchedUser.first_name} ${fetchedUser.last_name}`}
-			</Cell>
-		</Group>}
-
-		<Group title="Navigation Example">
-			<Div>
-				<Button size="xl" level="2" onClick={go} data-to="persik">
+		<div className="main">
+		<div className="head">Дед мороз</div>
+		  {fetchedUser &&
+		    <div className="description">
+				{`Привет ${fetchedUser.first_name}! знаешь что тебе подарят на новый год?`}
+		    </div>}
+			<img className="ded" src={ded} alt="ded" />
+				<Button size="xl" level="2" onClick={go} data-to="gift">
 					Show me the Persik, please
 				</Button>
-			</Div>
-		</Group>
+		   </div>
 	</Panel>
 );
 

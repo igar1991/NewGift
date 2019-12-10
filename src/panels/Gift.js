@@ -6,28 +6,36 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import HeaderButton from '@vkontakte/vkui/dist/components/HeaderButton/HeaderButton';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
-
+import { useState, useEffect } from 'react';
+import {StateBase} from '../state';
 import persik from '../img/persik.png';
 import './Persik.css';
 
 const osName = platform();
 
-const Persik = props => (
-	<Panel id={props.id}>
-		<PanelHeader
-			left={<HeaderButton onClick={props.go} data-to="home">
-				{osName === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
-			</HeaderButton>}
-		>
-			Persik
+const Gift = (props) => {
+	useEffect(() => {
+		console.log(StateBase())
+	
+	
+	}, []);
+	return (
+		<Panel id={props.id}>
+			<PanelHeader
+				left={<HeaderButton onClick={props.go} data-to="home">
+					{osName === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
+				</HeaderButton>}
+			>
+				efgef
 		</PanelHeader>
-		<img className="Persik" src={persik} alt="Persik The Cat"/>
-	</Panel>
-);
+			<img className="Persik" src={persik} alt="Persik The Cat" />
+		</Panel>
+	);
+}
 
-Persik.propTypes = {
+Gift.propTypes = {
 	id: PropTypes.string.isRequired,
 	go: PropTypes.func.isRequired,
 };
 
-export default Persik;
+export default Gift;
