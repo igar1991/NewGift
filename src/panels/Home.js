@@ -8,21 +8,28 @@ import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
 import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 import './Persik.css';
-import ded from '../img/santa.png';
+import ded from '../img/670.jpg';
 
 const Home = ({ id, go, fetchedUser }) => (
 	<Panel id={id}>
-		<div className="main">
-		<div className="head">Дед мороз</div>
+		
+		<PanelHeader>Дед мороз</PanelHeader>
 		  {fetchedUser &&
 		    <div className="description">
 				{`Привет ${fetchedUser.first_name}! знаешь что тебе подарят на новый год?`}
 		    </div>}
+			<Group>
 			<img className="ded" src={ded} alt="ded" />
+				<Cell>
+					У тебя есть 2 подарка
+				</Cell>
+				<Cell>
+					Узнай что тебе принесет Дед Мороз
+				</Cell>
 				<Button size="xl" level="2" onClick={go} data-to="gift">
-					Show me the Persik, please
+					Открыть
 				</Button>
-		   </div>
+			</Group>
 	</Panel>
 );
 
