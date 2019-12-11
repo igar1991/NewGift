@@ -10,7 +10,7 @@ import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 import './Persik.css';
 import ded from '../img/670.jpg';
 
-const Home = ({ id, go, fetchedUser }) => (
+const Home = ({ id, go, fetchedUser, count, countchek }) => (
 	<Panel id={id}>
 		
 		<PanelHeader>Дед мороз</PanelHeader>
@@ -26,7 +26,11 @@ const Home = ({ id, go, fetchedUser }) => (
 				<Cell>
 					Узнай что тебе принесет Дед Мороз
 				</Cell>
-				<Button size="xl" level="2" onClick={go} data-to="gift">
+				{count}
+				<Button size="xl" level="2" onClick={(e)=>{
+					go(e);
+					countchek();
+				}} data-to="gift">
 					Открыть
 				</Button>
 			</Group>

@@ -7,18 +7,32 @@ import HeaderButton from '@vkontakte/vkui/dist/components/HeaderButton/HeaderBut
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import { useState, useEffect } from 'react';
-import {StateBase} from '../state';
+import { StateBase } from '../state';
 import persik from '../img/persik.png';
 import './Persik.css';
+import Button from '@vkontakte/vkui/dist/components/Button/Button';
+import connect from '@vkontakte/vk-connect';
+
+
 
 const osName = platform();
 
 const Gift = (props) => {
 	useEffect(() => {
 		console.log(StateBase())
-	
-	
+
+
 	}, []);
+	const blobToBase64 =(blob, cb)=> {
+		var reader = new FileReader();
+		reader.onload = function() {
+		var dataUrl = reader.result;
+		var base64 = dataUrl.split(',')[1];
+		cb(base64);
+		};
+		reader.readAsDataURL(blob);
+	};
+
 	return (
 		<Panel id={props.id}>
 			<PanelHeader
@@ -26,9 +40,37 @@ const Gift = (props) => {
 					{osName === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
 				</HeaderButton>}
 			>
-				efgef
-		</PanelHeader>
-			<img className="Persik" src={persik} alt="Persik The Cat" />
+				{props.gift.text}
+			</PanelHeader>
+			<canvas id="gameCanvas"></canvas>
+			<Button size="xl" level="2" onClick={() => {
+				console.log("1");
+				
+				const canvas = document.getElementById('gameCanvas');
+				const ctx = canvas.getContext('2d');
+				ctx.fillRect(25,25,100,100);
+                ctx.clearRect(45,45,60,60);
+				ctx.strokeRect(50,50,50,50);
+				canvas.toBlob(function(blob) {
+					console.log("2");
+					blobToBase64(blob, (base64)=> {
+                        console.log("3");
+						connect.sendPromise("VKWebAppShowStoryBox", { "background_type" : "image", "url" : "https://sun9-65.userapi.com/c850136/v850136098/1b77eb/0YK6suXkY24.jpg" }).then(result=>{
+							console.log(result);
+							console.log("4");
+							
+						}).catch(res=> {
+							console.log(res);
+							
+						})
+					})
+					console.log("5");
+
+				});
+
+			}}>
+				Открыть
+					</Button>
 		</Panel>
 	);
 }
