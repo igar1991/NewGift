@@ -7,7 +7,6 @@ import HeaderButton from '@vkontakte/vkui/dist/components/HeaderButton/HeaderBut
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import { useState, useEffect } from 'react';
-import { StateBase } from '../state';
 import persik from '../img/persik.png';
 import './Persik.css';
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
@@ -18,11 +17,7 @@ import connect from '@vkontakte/vk-connect';
 const osName = platform();
 
 const Gift = (props) => {
-	useEffect(() => {
-		console.log(StateBase())
-
-
-	}, []);
+	console.log(props.gift)
 	const blobToBase64 =(blob, cb)=> {
 		var reader = new FileReader();
 		reader.onload = function() {
@@ -39,10 +34,10 @@ const Gift = (props) => {
 				left={<HeaderButton onClick={props.go} data-to="home">
 					{osName === IOS ? <Icon28ChevronBack /> : <Icon24Back />}
 				</HeaderButton>}
-			>
-				{props.gift.text}
+			>{props.gift.text}
 			</PanelHeader>
 			<canvas id="gameCanvas"></canvas>
+			<img src={props.gift.src} />
 			<Button size="xl" level="2" onClick={() => {
 				console.log("1");
 				

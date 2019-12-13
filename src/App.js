@@ -18,6 +18,7 @@ const App = () => {
 	
 
 	useEffect(() => {
+		console.log(StateBase)
 		connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": "100" });
 
 		connect.subscribe(({ detail: { type, data }}) => {
@@ -59,9 +60,8 @@ const App = () => {
 		let newcount = count-1
 		connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": newcount.toString() });
 		connect.sendPromise("VKWebAppStorageSet", {"key": "date", "value": (+ new Date()).toString() });
-
 		setCount(newcount);
-		setGift(StateBase()[1])
+		setGift(StateBase[1])
 		
 		
 
