@@ -2,7 +2,7 @@
 
   font-family: 'MyWebFont';
   src: url('./9903.otf');
-  font-weight: normal;
+  font-weight: lighter;
   font-style: normal;
 }
 .Persik {
@@ -19,5 +19,20 @@
 }
 
 body{
-  --header_background:black;
+  --header_background:#B5241C;
+  --destructive: #B5241C;
+}
+.description {
+  
+  text-align: center;
+  font-family: 'MyWebFont';
+  color:#B5241C;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+.des {
+  text-align: center;
+  font-family: 'MyWebFont';
+  color:#B5241C;
+  font-size: 2rem;
 }

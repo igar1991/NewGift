@@ -10,30 +10,30 @@ import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 import './Persik.css';
 import ded from '../img/670.jpg';
 
-const Home = ({ id, go, fetchedUser, count, countchek }) => (
+const Home = ({ id, go, fetchedUser, count, countchek, time }) => (
 	<Panel id={id}>
-		
+
 		<PanelHeader>Дед мороз</PanelHeader>
-		  {fetchedUser &&
-		    <div className="description">
-				{`Привет ${fetchedUser.first_name}! знаешь что тебе подарят на новый год?`}
-		    </div>}
-			<Group>
+		{fetchedUser &&
+			<div className="des">
+				{`Привет ${fetchedUser.first_name}! Давай посмотрим что тебе подарит Дед Мороз!`}
+			</div>}
+
+		<Group className="description">
 			<img className="ded" src={ded} alt="ded" />
-				<Cell>
-					У тебя есть 2 подарка
-				</Cell>
-				<Cell>
-					Узнай что тебе принесет Дед Мороз
-				</Cell>
-				{count}
-				<Button size="xl" level="2" onClick={(e)=>{
-					go(e);
-					countchek();
-				}} data-to="gift">
-					Открыть
-				</Button>
-			</Group>
+			<div className="description">
+				Подарков под ёлкой: {count}
+				
+			</div>
+			
+			{ count>0 &&<Button size="xl" level="destructive" onClick={(e) => {
+				go(e);
+				countchek();
+			}} data-to="gift">
+				Открыть
+				</Button>}
+			{count<=0 && <p className="des">У вас нет подарков:( Новый подарок через {time} минут!</p>}	
+		</Group>
 	</Panel>
 );
 

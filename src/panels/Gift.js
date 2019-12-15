@@ -18,12 +18,12 @@ const osName = platform();
 
 const Gift = (props) => {
 	console.log(props.gift)
-	const blobToBase64 =(blob, cb)=> {
+	const blobToBase64 = (blob, cb) => {
 		var reader = new FileReader();
-		reader.onload = function() {
-		var dataUrl = reader.result;
-		var base64 = dataUrl.split(',')[1];
-		cb(base64);
+		reader.onload = function () {
+			var dataUrl = reader.result;
+			var base64 = dataUrl.split(',')[1];
+			cb(base64);
 		};
 		reader.readAsDataURL(blob);
 	};
@@ -38,25 +38,43 @@ const Gift = (props) => {
 			</PanelHeader>
 			<canvas id="gameCanvas"></canvas>
 			<img src={props.gift.src} />
-			<Button size="xl" level="2" onClick={() => {
+			<Button size="xl" level="2" onClick={async () => {
 				console.log("1");
-				
+
 				const canvas = document.getElementById('gameCanvas');
 				const ctx = canvas.getContext('2d');
-				ctx.fillRect(25,25,100,100);
-                ctx.clearRect(45,45,60,60);
-				ctx.strokeRect(50,50,50,50);
-				canvas.toBlob(function(blob) {
+				canvas.width = 1440;
+				canvas.height = 2160;
+
+				const checkImage = path =>
+					new Promise(resolve => {
+						const img = new Image();
+						img.onload = () => resolve({ path, status: 'ok',img });
+						img.onerror = () => resolve({ path, status: 'error' });
+						img.crossOrigin="anonymous" ;
+						img.src = path;
+					});
+				const loadedResult = await checkImage(props.gift.src);
+				console.log(loadedResult);
+				if (loadedResult.status !== 'ok') {
+					console.log('ppc hren');
+					alert('Image loading error');
+					return;
+
+				}
+
+				ctx.drawImage(loadedResult.img, 0, 0, canvas.width, canvas.height)
+				canvas.toBlob(function (blob) {
 					console.log("2");
-					blobToBase64(blob, (base64)=> {
-                        console.log("3");
-						connect.sendPromise("VKWebAppShowStoryBox", { "background_type" : "image", "url" : "https://sun9-65.userapi.com/c850136/v850136098/1b77eb/0YK6suXkY24.jpg" }).then(result=>{
+					blobToBase64(blob, (base64) => {
+						console.log("3");
+						connect.sendPromise("VKWebAppShowStoryBox", { "background_type": "image", "blob": base64, "attachment":{"text":"hello", "type":"url", "url":"https://vk.com/app7239249"} }).then(result => {
 							console.log(result);
 							console.log("4");
-							
-						}).catch(res=> {
+
+						}).catch(res => {
 							console.log(res);
-							
+
 						})
 					})
 					console.log("5");

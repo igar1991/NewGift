@@ -11,16 +11,18 @@ const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(null);
-	const [count, setCount] = useState(0);
+	const [count, setCount] = useState(null);
 	const [gift, setGift] = useState(null);
+	const [time, setTime] = useState(null);
+
 
 
 	
 
 	useEffect(() => {
-		console.log(StateBase)
-		connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": "100" });
-
+		
+		
+		connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": "2" });
 		connect.subscribe(({ detail: { type, data }}) => {
 			if (type === 'VKWebAppUpdateConfig') {
 				const schemeAttribute = document.createAttribute('scheme');
@@ -34,9 +36,16 @@ const App = () => {
 			setPopout(null);
 		}
 		connect.sendPromise("VKWebAppStorageGet", {"keys": ["count","date"]}).then(data=> {
+			console.log(data);
+			
 			data.keys.forEach(item=>{
 				if(item.key==="count"){
-					if(!item.value) {
+					console.log(item.value);
+					console.log(typeof item.value);
+				
+					if(item.value==="") {
+						console.log('====');
+						
 						setCount(3);
 					} else {
 						setCount(item.value)
@@ -45,6 +54,8 @@ const App = () => {
 					const diff = (+ new Date())-Number(item.value)
 					   console.log(item.value);
 					   console.log(diff);
+					   setTime(Math.ceil(100-(diff/1000/60)));
+
 
 				}
 			});
@@ -57,19 +68,28 @@ const App = () => {
 		setActivePanel(e.currentTarget.dataset.to);
 	};
 	const countchek =()=> {
-		let newcount = count-1
-		connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": newcount.toString() });
-		connect.sendPromise("VKWebAppStorageSet", {"key": "date", "value": (+ new Date()).toString() });
-		setCount(newcount);
-		setGift(StateBase[1])
+		console.log(time);
+		let newcount = count-1;
 		
+		connect.sendPromise("VKWebAppStorageSet", {"key": "date", "value": (+ new Date()).toString() });
+		
+		if(newcount<=0){
+			newcount=-1;
+		}
+
+		console.log(newcount);
+		
+		connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": newcount.toString() });
+		setCount(newcount);
+		
+		setGift(StateBase[1])
 		
 
 	}
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
-			<Home id='home' fetchedUser={fetchedUser} go={go} count={count} countchek={countchek} />
+			<Home id='home' fetchedUser={fetchedUser} go={go} count={count} countchek={countchek} time={time} />
 			<Gift id='gift' go={go} gift={gift} />
 		</View>
 	);
