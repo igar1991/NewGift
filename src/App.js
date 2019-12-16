@@ -10,19 +10,15 @@ import Gift from './panels/Gift';
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
-	const [popout, setPopout] = useState(null);
+	const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
 	const [count, setCount] = useState(null);
 	const [gift, setGift] = useState(null);
 	const [time, setTime] = useState(null);
 
-
-
-	
-
 	useEffect(() => {
 		
+		console.log(typeof time);
 		
-		connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": "2" });
 		connect.subscribe(({ detail: { type, data }}) => {
 			if (type === 'VKWebAppUpdateConfig') {
 				const schemeAttribute = document.createAttribute('scheme');
@@ -33,63 +29,66 @@ const App = () => {
 		async function fetchData() {
 			const user = await connect.sendPromise('VKWebAppGetUserInfo');
 			setUser(user);
-			setPopout(null);
+			
 		}
 		connect.sendPromise("VKWebAppStorageGet", {"keys": ["count","date"]}).then(data=> {
-			console.log(data);
-			
 			data.keys.forEach(item=>{
 				if(item.key==="count"){
-					console.log(item.value);
-					console.log(typeof item.value);
-				
 					if(item.value==="") {
-						console.log('====');
-						
 						setCount(3);
 					} else {
 						setCount(item.value)
 					}
 				}else if(item.key==="date"){
-					const diff = (+ new Date())-Number(item.value)
-					   console.log(item.value);
-					   console.log(diff);
-					   setTime(Math.ceil(100-(diff/1000/60)));
-
-
+					const diff = (+ new Date())-Number(item.value);
+					const timeall= Math.ceil((5-diff/1000/60))
+					setTime(timeall);
+					setPopout(null);
+					if(timeall<=0){
+						checkTime();
+					}
+					
+					console.log(timeall);
+					
 				}
 			});
-			
 		})
 		fetchData();
+		console.log(time);
 	}, []);
 
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
 	};
+	const randomInteger=(min, max)=> {
+		let rand = min - 0.5 + Math.random() * (max - min + 1);
+		return Math.round(rand);
+	  }
+
 	const countchek =()=> {
-		console.log(time);
 		let newcount = count-1;
-		
-		connect.sendPromise("VKWebAppStorageSet", {"key": "date", "value": (+ new Date()).toString() });
-		
+		let countgift= randomInteger(1, 70 );
 		if(newcount<=0){
 			newcount=-1;
 		}
-
-		console.log(newcount);
-		
 		connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": newcount.toString() });
 		setCount(newcount);
+		connect.sendPromise("VKWebAppStorageSet", {"key": "date", "value": (+ new Date()).toString() });
+		setGift(StateBase[countgift])
+		console.log(countgift);
 		
-		setGift(StateBase[1])
-		
+	}
 
+	const checkTime =()=> {
+			connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": "4" });
+	}
+	const setNewPopout =()=> {
+		setPopout(<ScreenSpinner size="large" />);
 	}
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
-			<Home id='home' fetchedUser={fetchedUser} go={go} count={count} countchek={countchek} time={time} />
+			<Home id='home' fetchedUser={fetchedUser} go={go} count={count} countchek={countchek} time={time} checkTime={checkTime} setNewPopout={setNewPopout} />
 			<Gift id='gift' go={go} gift={gift} />
 		</View>
 	);

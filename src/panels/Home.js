@@ -10,7 +10,7 @@ import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 import './Persik.css';
 import ded from '../img/670.jpg';
 
-const Home = ({ id, go, fetchedUser, count, countchek, time }) => (
+const Home = ({ id, go, fetchedUser, count, countchek, time, setNewPopout }) => (
 	<Panel id={id}>
 
 		<PanelHeader>Дед мороз</PanelHeader>
@@ -22,17 +22,16 @@ const Home = ({ id, go, fetchedUser, count, countchek, time }) => (
 		<Group className="description">
 			<img className="ded" src={ded} alt="ded" />
 			<div className="description">
-				Подарков под ёлкой: {count}
-				
+				Подарков под ёлкой: {count<=0 ? 0 : count}
 			</div>
-			
+			{count===null && setNewPopout}
 			{ count>0 &&<Button size="xl" level="destructive" onClick={(e) => {
 				go(e);
 				countchek();
 			}} data-to="gift">
 				Открыть
 				</Button>}
-			{count<=0 && <p className="des">У вас нет подарков:( Новый подарок через {time} минут!</p>}	
+			{count<=0 && <p className="des">У вас нет подарков:( <br />Новый подарок через {time<=0 ? `несколько` : time } минут!</p>}	
 		</Group>
 	</Panel>
 );
