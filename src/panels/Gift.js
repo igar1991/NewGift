@@ -17,16 +17,13 @@ import connect from '@vkontakte/vk-connect';
 const osName = platform();
 
 const Gift = (props) => {
-	const blobToBase64 = (blob, cb) => {
-		let reader = new FileReader();
-		reader.onload = function () {
-			let dataUrl = reader.result;
-			let base64 = dataUrl.split(',')[1];
-			cb(base64);
-		};
-		reader.readAsDataURL(blob);
-	};
-
+	const historyGet=()=> {
+		connect.sendPromise("VKWebAppShowStoryBox", 
+				{ "background_type": "image", 
+				"url": "https://sun9-8.userapi.com/c205820/v205820168/11de9/u3XldP7BvHw.jpg", 
+				"attachment":{"text":"hello", "type":"url", "url":"https://vk.com/app7239249"} 
+			})}
+	
 	return (
 		<Panel id={props.id}>
 			<PanelHeader
@@ -35,40 +32,11 @@ const Gift = (props) => {
 				</HeaderButton>}
 			>{props.gift.text}
 			</PanelHeader>
-			<canvas id="canvas"></canvas>
-			<img src={props.gift.src} />
-			<Button size="xl" level="2" onClick={async () => {
-				const canvas = document.getElementById('canvas');
-				const ctx = canvas.getContext('2d');
-				canvas.width = 1440;
-				canvas.height = 2160;
-				const checkImage = path =>
-					new Promise(resolve => {
-						const img = new Image();
-						img.onload = () => resolve({ path, status: 'ok',img });
-						img.onerror = () => resolve({ path, status: 'error' });
-						img.crossOrigin="anonymous" ;
-						img.src = path;
-					});
-				const loadedResult = await checkImage(props.gift.src);
-				if (loadedResult.status !== 'ok') {
-					return;
-				}
-				ctx.drawImage(loadedResult.img, 0, 0, canvas.width, canvas.height)
-				canvas.toBlob(function (blob) {
-					blobToBase64(blob, (base64) => {
-						connect.sendPromise("VKWebAppShowStoryBox", { "background_type": "image", "blob": base64, "attachment":{"text":"hello", "type":"url", "url":"https://vk.com/app7239249"} }).then(result => {
-						}).catch(res => {
-						})
-					})
-				});
-
-			}}>
+			<Button size="xl" level="2" onClick={historyGet}>
 				Открыть
-					</Button>
+			</Button>
 		</Panel>
-	);
-}
+	)};
 
 Gift.propTypes = {
 	id: PropTypes.string.isRequired,
