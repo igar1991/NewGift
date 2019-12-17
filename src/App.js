@@ -35,13 +35,13 @@ const App = () => {
 			data.keys.forEach(item=>{
 				if(item.key==="count"){
 					if(item.value==="") {
-						setCount(3);
+						setCount(2);
 					} else {
 						setCount(item.value)
 					}
 				}else if(item.key==="date"){
 					const diff = (+ new Date())-Number(item.value);
-					const timeall= Math.ceil((5-diff/1000/60))
+					const timeall= Math.ceil((1-diff/1000/60))
 					setTime(timeall);
 					setPopout(null);
 					if(timeall<=0){
@@ -67,7 +67,7 @@ const App = () => {
 
 	const countchek =()=> {
 		let newcount = count-1;
-		let countgift= randomInteger(1, 70 );
+		let countgift= randomInteger(1,72);
 		if(newcount<=0){
 			newcount=-1;
 		}
@@ -78,9 +78,9 @@ const App = () => {
 		console.log(countgift);
 		
 	}
-
+    
 	const checkTime =()=> {
-			connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": "4" });
+			connect.sendPromise("VKWebAppStorageSet", {"key": "count", "value": "1" });
 	}
 	const setNewPopout =()=> {
 		setPopout(<ScreenSpinner size="large" />);

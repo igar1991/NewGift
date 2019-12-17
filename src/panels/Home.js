@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import Panel from '@vkontakte/vkui/dist/components/Panel/Panel';
 import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader';
 import Button from '@vkontakte/vkui/dist/components/Button/Button';
-import Group from '@vkontakte/vkui/dist/components/Group/Group';
-import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import Div from '@vkontakte/vkui/dist/components/Div/Div';
 import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 import './Persik.css';
@@ -14,12 +12,13 @@ const Home = ({ id, go, fetchedUser, count, countchek, time, setNewPopout }) => 
 	<Panel id={id}>
 
 		<PanelHeader>Дед мороз</PanelHeader>
+		
 		{fetchedUser &&
 			<div className="des">
 				{`Привет ${fetchedUser.first_name}! Давай посмотрим что тебе подарит Дед Мороз!`}
 			</div>}
 
-		<Group className="description">
+		<Div className="description">
 			<img className="ded" src={ded} alt="ded" />
 			<div className="description">
 				Подарков под ёлкой: {count<=0 ? 0 : count}
@@ -32,7 +31,8 @@ const Home = ({ id, go, fetchedUser, count, countchek, time, setNewPopout }) => 
 				Открыть
 				</Button>}
 			{count<=0 && <p className="des">У вас нет подарков:( <br />Новый подарок через {time<=0 ? `несколько` : time } минут!</p>}	
-		</Group>
+		</Div>
+		
 	</Panel>
 );
 

@@ -14,9 +14,6 @@
 .ded {
   width: 100%;
 }
-.Cell__children {
-  color: red;
-}
 
 body{
   --header_background:#B5241C;
@@ -34,5 +31,5 @@ body{
   text-align: center;
   font-family: 'MyWebFont';
   color:#B5241C;
-  font-size: 2rem;
+  font-size: 1.7rem;
 }
