@@ -24,7 +24,7 @@ const Gift = (props) => {
 				"url": props.gift.id,
 				"attachment": { "text": "hello", "type": "url", "url": "https://vk.com/app7239249" }
 			})
-	}
+	};
 
 	return (
 		<Panel id={props.id}>
@@ -38,7 +38,7 @@ const Gift = (props) => {
 				<img src={props.gift.id} alt={props.gift.text} width="100%" />
 
 				<Button size="xl" level="destructive" onClick={historyGet}>
-				<Icon24Share />В ИСТОРИЮ 
+				<Icon24Share />В ИСТОРИЮ
 			    </Button>
 			</Div>
 		</Panel>
